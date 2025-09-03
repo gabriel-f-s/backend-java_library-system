@@ -4,11 +4,10 @@ import com.gabriel_f_s.bookstore.entities.Book;
 import com.gabriel_f_s.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -28,5 +27,28 @@ public class BookController {
     public ResponseEntity<Book> findById(@PathVariable Long id) {
         Book body = service.findById(id);
         return ResponseEntity.ok(body);
+    }
+
+    @PostMapping
+    public ResponseEntity<Book> create(@RequestBody Book book) {
+        Book body = service.create(book);
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
+                .path("/{id}")
+                .buildAndExpand(body.getId())
+                .toUri();
+
+        return ResponseEntity.created(uri).body(body);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Book> update(@PathVariable Long id, @RequestBody Book book) {
+        Book body = service.update(id, book);
+        return ResponseEntity.ok(body);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.delete(id);
+        return ResponseEntity.noContent().build();
     }
 }
