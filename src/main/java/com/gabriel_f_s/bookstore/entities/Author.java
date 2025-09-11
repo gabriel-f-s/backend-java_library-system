@@ -11,7 +11,6 @@ import java.util.Set;
 @Entity
 @Table(name = "tb_authors")
 @NoArgsConstructor
-@ToString
 @Setter
 @Getter
 public class Author implements Serializable {
@@ -35,15 +34,7 @@ public class Author implements Serializable {
         books.add(book);
     }
 
-    public void addBook(Collection<Book> book) {
-        books.addAll(book);
-    }
-
     public void removeBook(Book book) {
         books.remove(book);
-    }
-
-    public void removeBook(Collection<Book> book) {
-        books.removeAll(book);
     }
 }

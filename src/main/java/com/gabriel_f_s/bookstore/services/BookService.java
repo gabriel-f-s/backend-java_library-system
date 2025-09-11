@@ -5,6 +5,7 @@ import com.gabriel_f_s.bookstore.mapper.DataMapper;
 import com.gabriel_f_s.bookstore.mapper.dtos.AuthorDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BooksWithRelationsDTO;
+import com.gabriel_f_s.bookstore.mapper.dtos.GenreDTO;
 import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
 import com.gabriel_f_s.bookstore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,11 @@ public class BookService {
                             .map(author -> new AuthorDTO(author.getId(), author.getName()))
                             .collect(Collectors.toSet());
                     dto.setAuthors(authorDTOs);
+
+                    Set<GenreDTO> genreDTOs = book.getGenres().stream()
+                            .map(genre -> new GenreDTO(genre.getId(), genre.getName()))
+                            .collect(Collectors.toSet());
+                    dto.setGenres(genreDTOs);
                     return dto;
                 }).orElseThrow(() -> new ResourceNotFoundException(id));
     }

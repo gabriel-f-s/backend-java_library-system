@@ -12,7 +12,6 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 public class Book implements Serializable {
 
     @Id
@@ -28,6 +27,13 @@ public class Book implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
     private Set<Author> authors;
-    // private Genre genre;
+
+    @ManyToMany
+    @JoinTable(
+            name = "tb_book_genre",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "genre_id")
+    )
+    private Set<Genre> genres;
 
 }

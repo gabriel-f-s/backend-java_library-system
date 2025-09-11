@@ -15,5 +15,6 @@ public class BooksWithRelationsDTO {
     private String title;
     private String isbn;
     private Set<AuthorDTO> authors;
+    private Set<GenreDTO> genres;
 
 }
