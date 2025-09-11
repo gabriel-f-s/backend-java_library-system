@@ -4,9 +4,10 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_books")
+@Table(name = "tb_book")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,11 +18,17 @@ public class Book implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private Double price;
-    private Integer numberOfPages;
+    private String title;
+    private String isbn;
 
+    @ManyToMany
+    @JoinTable(
+            name = "tb_book_author",
+            joinColumns = @JoinColumn(name = "book_id"),
+            inverseJoinColumns = @JoinColumn(name = "author_id")
+    )
+    private Set<Author> authors;
     // private Publisher publisher;
-    // private Author author;
+    // private Genre genre;
 
 }
