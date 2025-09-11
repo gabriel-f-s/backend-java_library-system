@@ -1,7 +1,5 @@
 package com.gabriel_f_s.bookstore.controllers;
 
-import com.gabriel_f_s.bookstore.entities.Book;
-import com.gabriel_f_s.bookstore.mapper.DataMapper;
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BooksWithRelationsDTO;
 import com.gabriel_f_s.bookstore.services.BookService;

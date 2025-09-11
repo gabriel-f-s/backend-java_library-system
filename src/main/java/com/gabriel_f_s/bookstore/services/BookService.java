@@ -3,7 +3,6 @@ package com.gabriel_f_s.bookstore.services;
 import com.gabriel_f_s.bookstore.entities.Book;
 import com.gabriel_f_s.bookstore.mapper.DataMapper;
 import com.gabriel_f_s.bookstore.mapper.dtos.AuthorDTO;
-import com.gabriel_f_s.bookstore.mapper.dtos.AuthorWithBooksDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BooksWithRelationsDTO;
 import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
@@ -12,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -35,9 +33,7 @@ public class BookService {
                     dto.setIsbn(book.getIsbn());
 
                     Set<AuthorDTO> authorDTOs = book.getAuthors().stream()
-                            .map(author -> {
-                                return new AuthorDTO(author.getId(), author.getName());
-                            })
+                            .map(author -> new AuthorDTO(author.getId(), author.getName()))
                             .collect(Collectors.toSet());
                     dto.setAuthors(authorDTOs);
                     return dto;
