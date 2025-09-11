@@ -1,4 +1,4 @@
-package com.gabriel_f_s.bookstore.exceptions;
+package com.gabriel_f_s.bookstore.controllers.exceptions;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

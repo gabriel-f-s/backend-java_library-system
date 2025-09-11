@@ -1,4 +1,4 @@
-package com.gabriel_f_s.bookstore.exceptions;
+package com.gabriel_f_s.bookstore.services.exceptions;
 
 public class ResourceNotFoundException extends RuntimeException {
     public ResourceNotFoundException(Object id) {

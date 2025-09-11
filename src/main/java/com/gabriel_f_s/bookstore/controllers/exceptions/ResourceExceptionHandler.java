@@ -1,5 +1,6 @@
-package com.gabriel_f_s.bookstore.exceptions;
+package com.gabriel_f_s.bookstore.controllers.exceptions;
 
+import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
