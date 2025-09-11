@@ -47,6 +47,3 @@ public class Author implements Serializable {
         books.removeAll(book);
     }
 }
-
-// TODO: Criar a entidade Genre, e realizar a relação com Book.
-// TODO: Criar DTOs para Book, Author e Genre pois acredito que desta maneira, seja possível listar os livros em /authors e /genres
