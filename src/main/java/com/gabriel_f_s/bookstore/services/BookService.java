@@ -1,13 +1,20 @@
 package com.gabriel_f_s.bookstore.services;
 
 import com.gabriel_f_s.bookstore.entities.Book;
-import com.gabriel_f_s.bookstore.exceptions.ResourceNotFoundException;
+import com.gabriel_f_s.bookstore.mapper.DataMapper;
+import com.gabriel_f_s.bookstore.mapper.dtos.AuthorDTO;
+import com.gabriel_f_s.bookstore.mapper.dtos.AuthorWithBooksDTO;
+import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
+import com.gabriel_f_s.bookstore.mapper.dtos.BooksWithRelationsDTO;
+import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
 import com.gabriel_f_s.bookstore.repositories.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class BookService {
@@ -15,25 +22,37 @@ public class BookService {
     @Autowired
     BookRepository repository;
 
-    public List<Book> findAll() {
-        return repository.findAll();
+    public List<BookDTO> findAll() {
+        return DataMapper.parseListData(repository.findAll(), BookDTO.class);
     }
 
-    public Book findById(Long id) {
-        Optional<Book> object = repository.findById(id);
-        return object.orElseThrow(() -> new ResourceNotFoundException(id));
+    public BooksWithRelationsDTO findById(Long id) {
+        return repository.findById(id)
+                .map(book -> {
+                    BooksWithRelationsDTO dto = new BooksWithRelationsDTO();
+                    dto.setId(book.getId());
+                    dto.setTitle(book.getTitle());
+                    dto.setIsbn(book.getIsbn());
+
+                    Set<AuthorDTO> authorDTOs = book.getAuthors().stream()
+                            .map(author -> {
+                                return new AuthorDTO(author.getId(), author.getName());
+                            })
+                            .collect(Collectors.toSet());
+                    dto.setAuthors(authorDTOs);
+                    return dto;
+                }).orElseThrow(() -> new ResourceNotFoundException(id));
     }
 
-    public Book create(Book newBook) {
-        return repository.save(newBook);
+    public BookDTO create(BookDTO newBook) {
+        return DataMapper.parseData(repository.save(DataMapper.parseData(newBook, Book.class)), BookDTO.class);
     }
 
-    public Book update(Long id, Book newBook) {
+    public BookDTO update(Long id, BookDTO newBook) {
         Book object = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
-        object.setName(newBook.getName());
-        object.setPrice(newBook.getPrice());
-        object.setNumberOfPages(newBook.getNumberOfPages());
-        return repository.save(object);
+        object.setTitle(newBook.getTitle());
+        object.setIsbn(newBook.getIsbn());
+        return DataMapper.parseData(repository.save(object), BookDTO.class);
     }
 
     public void delete(Long id) {
