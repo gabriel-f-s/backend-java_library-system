@@ -3,8 +3,10 @@ package com.gabriel_f_s.bookstore.entities;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +25,8 @@ public class Genre implements Serializable {
     @Setter(AccessLevel.NONE)
     @JsonIgnore
     @ManyToMany(mappedBy = "genres")
-    private Set<Book> books;
+    @Autowired
+    private Set<Book> books = new HashSet<>();
 
     public Genre(Long id, String name) {
         this.id = id;

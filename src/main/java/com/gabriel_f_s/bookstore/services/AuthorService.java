@@ -6,8 +6,10 @@ import com.gabriel_f_s.bookstore.mapper.dtos.AuthorDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.AuthorWithBooksDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.repositories.AuthorRepository;
+import com.gabriel_f_s.bookstore.services.exceptions.DatabaseException;
 import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class AuthorService {
                             .collect(Collectors.toSet());
                     dto.setBooks(bookDTOs);
                     return dto;
-                }).orElseThrow(() -> new ResourceNotFoundException(id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Author not found.", id));
     }
 
     public Author create(AuthorDTO newAuthor) {
@@ -50,15 +52,20 @@ public class AuthorService {
     }
 
     public AuthorDTO update(Long id, AuthorDTO newAuthor) {
-        Author object = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Author object = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Author not found.", id));
         object.setName(newAuthor.getName());
         return DataMapper.parseData(repository.save(object), AuthorDTO.class);
     }
 
     public void delete(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        try {
+            if (repository.existsById(id)) {
+                repository.deleteById(id);
+            }
+            else throw new ResourceNotFoundException("Author not found.", id);
         }
-        else throw new ResourceNotFoundException(id);
+        catch (DataIntegrityViolationException exception) {
+            throw new DatabaseException(exception.getMessage());
+        }
     }
 }

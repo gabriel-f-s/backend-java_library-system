@@ -2,6 +2,7 @@ package com.gabriel_f_s.bookstore.controllers;
 
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BooksWithRelationsDTO;
+import com.gabriel_f_s.bookstore.mapper.dtos.CreateBookDTO;
 import com.gabriel_f_s.bookstore.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,8 +32,8 @@ public class BookController {
     }
 
     @PostMapping
-    public ResponseEntity<BookDTO> create(@RequestBody BookDTO book) {
-        BookDTO body = service.create(book);
+    public ResponseEntity<BooksWithRelationsDTO> create(@RequestBody CreateBookDTO book) {
+        BooksWithRelationsDTO body = service.create(book);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
                 .buildAndExpand(body.getId())
@@ -41,8 +42,8 @@ public class BookController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> update(@PathVariable Long id, @RequestBody BookDTO book) {
-        BookDTO body = service.update(id, book);
+    public ResponseEntity<BooksWithRelationsDTO> update(@PathVariable Long id, @RequestBody CreateBookDTO book) {
+        BooksWithRelationsDTO body = service.update(id, book);
         return ResponseEntity.ok(body);
     }
 

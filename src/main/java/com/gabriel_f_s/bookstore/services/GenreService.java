@@ -6,8 +6,10 @@ import com.gabriel_f_s.bookstore.mapper.dtos.GenreDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.GenreWithBooksDTO;
 import com.gabriel_f_s.bookstore.mapper.dtos.BookDTO;
 import com.gabriel_f_s.bookstore.repositories.GenreRepository;
+import com.gabriel_f_s.bookstore.services.exceptions.DatabaseException;
 import com.gabriel_f_s.bookstore.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -42,7 +44,7 @@ public class GenreService {
                             .collect(Collectors.toSet());
                     dto.setBooks(bookDTOs);
                     return dto;
-                }).orElseThrow(() -> new ResourceNotFoundException(id));
+                }).orElseThrow(() -> new ResourceNotFoundException("Genre not found.", id));
     }
 
     public Genre create(GenreDTO newGenre) {
@@ -50,15 +52,20 @@ public class GenreService {
     }
 
     public GenreDTO update(Long id, GenreDTO newGenre) {
-        Genre object = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(id));
+        Genre object = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Genre not found.", id));
         object.setName(newGenre.getName());
         return DataMapper.parseData(repository.save(object), GenreDTO.class);
     }
 
     public void delete(Long id) {
-        if (repository.existsById(id)) {
-            repository.deleteById(id);
+        try {
+            if (repository.existsById(id)) {
+                repository.deleteById(id);
+            }
+            else throw new ResourceNotFoundException("Genre not found.", id);
         }
-        else throw new ResourceNotFoundException(id);
+        catch (DataIntegrityViolationException exception) {
+            throw new DatabaseException(exception.getMessage());
+        }
     }
 }

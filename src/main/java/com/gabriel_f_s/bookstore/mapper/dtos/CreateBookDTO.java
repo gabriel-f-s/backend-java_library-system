@@ -10,12 +10,11 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BooksWithRelationsDTO {
+public class CreateBookDTO {
 
     private Long id;
     private String title;
     private String isbn;
-    private Set<AuthorDTO> authors = new HashSet<>();
-    private Set<GenreDTO> genres = new HashSet<>();
-
+    private Set<Long> authorsIds = new HashSet<>();
+    private Set<Long> genresIds = new HashSet<>();
 }

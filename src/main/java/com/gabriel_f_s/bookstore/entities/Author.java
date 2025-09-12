@@ -5,7 +5,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Collection;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,7 +23,7 @@ public class Author implements Serializable {
     @Setter(AccessLevel.NONE)
     @JsonIgnore
     @ManyToMany(mappedBy = "authors")
-    private Set<Book> books;
+    private Set<Book> books = new HashSet<>();
 
     public Author(Long id, String name) {
         this.id = id;
