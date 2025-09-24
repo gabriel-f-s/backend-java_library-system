@@ -9,12 +9,14 @@ import com.gabriel_f_s.bookstore.repositories.GenreRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 
 @Configuration
+@Profile("test")
 public class TestConfiguration implements CommandLineRunner {
 
     @Autowired
