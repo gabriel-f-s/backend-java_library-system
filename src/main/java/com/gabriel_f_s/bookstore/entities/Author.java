@@ -9,7 +9,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_authors")
+@Table(name = "tb_author")
 @NoArgsConstructor
 @Setter
 @Getter
