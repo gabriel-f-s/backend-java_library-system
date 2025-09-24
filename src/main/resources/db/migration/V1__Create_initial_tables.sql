@@ -1,0 +1,32 @@
+CREATE TABLE TB_AUTHOR (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE TB_GENRE (
+    id BIGSERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE TB_BOOK (
+    id BIGSERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    isbn VARCHAR(20) NOT NULL UNIQUE,
+    publication_year INT
+);
+
+CREATE TABLE TB_BOOK_AUTHOR (
+    book_id BIGINT NOT NULL,
+    author_id BIGINT NOT NULL,
+    PRIMARY KEY (book_id, author_id),
+    FOREIGN KEY (book_id) REFERENCES TB_BOOK (id),
+    FOREIGN KEY (author_id) REFERENCES TB_AUTHOR (id)
+);
+
+CREATE TABLE TB_BOOK_GENRE (
+    book_id BIGINT NOT NULL,
+    genre_id BIGINT NOT NULL,
+    PRIMARY KEY (book_id, genre_id),
+    FOREIGN KEY (book_id) REFERENCES TB_BOOK (id),
+    FOREIGN KEY (genre_id) REFERENCES TB_GENRE (id)
+);
