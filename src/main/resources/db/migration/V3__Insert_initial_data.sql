@@ -1,4 +1,4 @@
-INSERT INTO TB_GENRE (name) VALUES
+INSERT INTO GENRE (name) VALUES
 ('Ficção Científica'),
 ('Fantasia'),
 ('Romance'),
@@ -10,7 +10,7 @@ INSERT INTO TB_GENRE (name) VALUES
 ('Terror'),
 ('Aventura');
 
-INSERT INTO TB_AUTHOR (name) VALUES
+INSERT INTO AUTHOR (name) VALUES
 ('Isaac Asimov'),
 ('J.R.R. Tolkien'),
 ('Agatha Christie'),
@@ -22,7 +22,7 @@ INSERT INTO TB_AUTHOR (name) VALUES
 ('Brené Brown'),
 ('Neil Gaiman');
 
-INSERT INTO TB_BOOK (title, isbn, publication_year) VALUES
+INSERT INTO BOOK (title, isbn, publication_year) VALUES
 ('Eu, Robô', '978-8576572008', 1950),
 ('O Senhor dos Anéis: A Sociedade do Anel', '978-8595084759', 1954),
 ('O Assassinato no Expresso do Oriente', '978-8525411182', 1934),
@@ -35,7 +35,7 @@ INSERT INTO TB_BOOK (title, isbn, publication_year) VALUES
 ('Sandman: Prelúdios e Noturnos', '978-8573519835', 1989),
 ('O Iluminado', '978-8544101676', 1977);
 
-INSERT INTO TB_BOOK_AUTHOR (book_id, author_id) VALUES
+INSERT INTO BOOK_AUTHOR (book_id, author_id) VALUES
 (1, 1),  -- Eu, Robô -> Isaac Asimov
 (2, 2),  -- O Senhor dos Anéis -> J.R.R. Tolkien
 (3, 3),  -- O Assassinato no Expresso do Oriente -> Agatha Christie
@@ -48,7 +48,7 @@ INSERT INTO TB_BOOK_AUTHOR (book_id, author_id) VALUES
 (10, 10), -- Sandman -> Neil Gaiman
 (11, 4); -- O Iluminado -> Stephen King
 
-INSERT INTO TB_BOOK_GENRE (book_id, genre_id) VALUES
+INSERT INTO BOOK_GENRE (book_id, genre_id) VALUES
 (1, 1),  -- Eu, Robô -> Ficção Científica
 (2, 2),  -- O Senhor dos Anéis -> Fantasia
 (2, 10), -- O Senhor dos Anéis -> Aventura
