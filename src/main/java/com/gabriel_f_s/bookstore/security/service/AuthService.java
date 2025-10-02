@@ -2,6 +2,7 @@ package com.gabriel_f_s.bookstore.security.service;
 
 import com.gabriel_f_s.bookstore.security.dto.AccountCredentialsDTO;
 import com.gabriel_f_s.bookstore.security.dto.TokenDTO;
+import com.gabriel_f_s.bookstore.security.entity.Role;
 import com.gabriel_f_s.bookstore.security.entity.User;
 import com.gabriel_f_s.bookstore.security.jwt.JwtTokenProvider;
 import com.gabriel_f_s.bookstore.security.repository.UserRepository;
@@ -10,13 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.crypto.password.Pbkdf2PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -42,7 +39,7 @@ public class AuthService {
 
         TokenDTO token = jwtTokenProvider.createAccessToken(
                 credentials.getUsername(),
-                user.getRoles()
+                user.getRoles().stream().map(Role::getName).collect(Collectors.toList())
         );
 
         return ResponseEntity.ok(token);

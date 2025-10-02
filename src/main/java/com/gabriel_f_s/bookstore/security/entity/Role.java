@@ -1,30 +1,33 @@
 package com.gabriel_f_s.bookstore.security.entity;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.security.core.GrantedAuthority;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_roles")
+@Table(name = "role")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class Role implements GrantedAuthority, Serializable {
+public class Role implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column
-    @Getter(value = AccessLevel.NONE)
-    private String roleName;
+    @Column(name = "role_name")
+    private String name;
 
-    @Override
-    public String getAuthority() {
-        return this.roleName;
-    }
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "role_permissions",
+            joinColumns = @JoinColumn(name = "role_id"),
+            inverseJoinColumns = @JoinColumn(name = "permission_id")
+    )
+    private Set<Permission> permissions = new HashSet<>();
+
 }

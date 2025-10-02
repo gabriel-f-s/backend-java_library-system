@@ -8,7 +8,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 @Entity
-@Table(name = "tb_book")
+@Table(name = "book")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -25,7 +25,7 @@ public class Book implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "tb_book_author",
+            name = "book_author",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "author_id")
     )
@@ -33,7 +33,7 @@ public class Book implements Serializable {
 
     @ManyToMany
     @JoinTable(
-            name = "tb_book_genre",
+            name = "book_genre",
             joinColumns = @JoinColumn(name = "book_id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id")
     )

@@ -10,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.io.Serializable;
 import java.util.Collection;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name = "tb_users")
+@Table(name = "users")
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -44,20 +44,16 @@ public class User implements UserDetails, Serializable {
     private Boolean enabled;
 
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "tb_user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private List<Role> roles;
-
-    public List<String> getRoles() {
-        List<String> roles  = new ArrayList<>();
-        for (Role role : this.roles) {
-            roles.add(role.getAuthority());
-        }
-        return roles;
-    }
+    @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return this.roles;
+        Set<GrantedAuthority> authorities = new HashSet<>();
+        for (Role role : this.roles) {
+            authorities.addAll(role.getPermissions());
+        }
+        return authorities;
     }
 
     @Override
